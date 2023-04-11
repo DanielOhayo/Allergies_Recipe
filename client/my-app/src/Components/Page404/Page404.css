@@ -1,0 +1,16 @@
+
+.Page404{
+    display: inline-block;
+    text-align: center;
+    border: 2px solid black;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 20px;
+    background-color: white;
+    margin: 50px;
+}
+
+.Page404 > img {
+    width: 60%;
+    background-color: #F2F2F2;
+} 
