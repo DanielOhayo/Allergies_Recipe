@@ -40,15 +40,29 @@ app.post("/", async (req, res) => {
     messages: [{ role: "user", content: `${message}` }],
   })
   res.json({
-    completion: completion.data.choices[0].message
+    completion: file_design(completion.data.choices[0].message.content)
   })
-  console.log(completion.data.choices[0].message.content)
-  fs.writeFile('data.txt', completion.data.choices[0].message.content, (err) => {
+
+});
+
+function file_design(answer) {
+  fs.writeFile('data.txt', answer, (err) => {
+    if (err) throw err;
+    console.log('Data written to file');
+  });
+  let fileContents = fs.readFileSync('data.txt', 'utf8');
+
+  const specifiedWord = 'Ingredients:';
+  const index = fileContents.indexOf(specifiedWord);
+  fileContents = fileContents.slice(index);
+
+  fs.writeFile('dataNew.txt', fileContents, (err) => {
     if (err) throw err;
     console.log('Data written to file');
   });
 
-});
+  return fileContents;
+}
 
 app.listen(port, () => {
   console.log(`listen to port: ${port}`)

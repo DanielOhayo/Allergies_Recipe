@@ -1,4 +1,4 @@
-export function myFunction() {
+export function myFunction(askedTemplate) {
 
     const chatLog = document.getElementById('chat-log')
     const message = document.getElementById('message')
@@ -8,10 +8,8 @@ export function myFunction() {
         const messageText = message.value;
         message.value = '';
         const messageElement = document.createElement('div');
-        messageElement.classList.add('message');
-        messageElement.classList.add('message--sent')
         messageElement.innerHTML = `
-            <div class="message__text">${messageText}</div>`;
+            <div class="message__text">We got your asked, loading ... </div>`;
         chatLog.appendChild(messageElement)
         chatLog.scrollTop = chatLog.scrollHeight;
         fetch('http://localhost:8080', {
@@ -20,16 +18,14 @@ export function myFunction() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                message: messageText
+                message: askedTemplate
             })
         })
             .then(res => res.json())
             .then(data => {
                 const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.classList.add('message--received')
                 messageElement.innerHTML = `
-        <div class="message__text">${data.completion.content}</div>`;
+        <div class="message__text">${data.completion}</div>`;
                 chatLog.appendChild(messageElement)
                 chatLog.scrollTop = chatLog.scrollHeight;
             })
