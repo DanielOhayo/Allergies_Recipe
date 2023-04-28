@@ -1,0 +1,97 @@
+/*CSS for screen resolution with max widht of 1920px*/
+@media (max-width: 1920px) {
+    .Login {
+        width: 31%;
+        margin-top: 2%;
+        display: inline-block;
+        text-align: center;
+        border: 2px solid black;
+        font-size: 25px;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 20px;
+        background-color: white;
+    }
+    
+    #my-p-login {
+        font-size: medium;
+        color: red;
+    }
+    
+    #my-button-login {
+        position: relative;
+        top: -20px;
+    }
+    
+    #my-input-login {
+        width: 250px;
+        font-size: medium;
+    }
+    
+    #my-label-password {
+        position: relative;
+        top: -20px;
+    }
+    
+    .my-input-password{
+        position: relative;
+        top: -20px;
+    }
+    
+    #my-logo-login {
+        width: 50%;
+        position: relative;
+        top: 0px;
+        margin-bottom: 10%;
+    }
+  }
+
+  /*CSS for screen resolution with max widht of 1366px*/
+  @media (max-width: 1366px) {
+    .Login {
+        width: 31%;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        display: inline-block;
+        text-align: center;
+        border: 2px solid black;
+        font-size: 25px;
+        padding: 1px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 20px;
+        background-color: white;
+    }
+    
+    #my-p-login {
+        font-size: small;
+        color: red;
+    }
+    
+    #my-button-login {
+        position: relative;
+        top: -40px;
+    }
+  }
+
+  /*CSS for whole resolutions*/
+  #my-input-login {
+    width: 250px;
+    font-size: medium;
+}
+
+#my-label-password {
+    position: relative;
+    top: -20px;
+}
+
+.my-input-password{
+    position: relative;
+    top: -20px;
+}
+
+#my-logo-login {
+    width: 40%;
+    position: relative;
+    top: 0px;
+    margin-bottom: 5%;
+}
