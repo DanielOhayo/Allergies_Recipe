@@ -1,61 +1,173 @@
-import { myFunction } from "./create_file";
+import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import "./HomePage.css";
+import Popup from "./Popup";
 
-// const baseUrl = 'http://localhost:8080/' //URL of server.
+const baseUrl = "http://localhost:8080/"; //URL of server.
 function HomePage() {
-  const [GlutenFreeCheck, setGlutenFreeChecked] = useState(false);
+  let Location = useLocation();
+  const { state } = Location;
+  const [id, setId] = useState(state.id_num);
+
+  const [GlutenCheck, setGlutenFreeChecked] = useState(false);
+  const [NutsCheck, setNutsChecked] = useState(false);
+  const [MilkCheck, setMilkChecked] = useState(false);
+  const [EggsCheck, setEggsChecked] = useState(false);
+  const [SesameCheck, setSesameChecked] = useState(false);
+
   const [text, setText] = useState("");
+  const [recipeFromChat, setRecipeFromChat] = useState("");
+  const [nameRecipe, setNameRecipe] = useState("");
+  const [recipeGot, setRecipeGot] = useState(false);
 
   let askedTemplate = "";
   let alternative = "";
 
-  function getChatGptAns(e) {
-    if (GlutenFreeCheck) {
-      alternative = "gluten free";
+  async function getChatGptAns(e) {
+    e.preventDefault();
+    setRecipeFromChat("We got your asked, loading ...");
+    if (GlutenCheck) {
+      alternative += "without gluten ";
     }
-    askedTemplate = `Hi ChatGPT, I'm looking for a recipe for homemade ${alternative} ${text}. Can you help me with that?`;
+    if (NutsCheck) {
+      alternative += "without nuts ";
+    }
+    if (MilkCheck) {
+      alternative += "without milk ";
+    }
+    if (EggsCheck) {
+      alternative += "without eggs ";
+    }
+    if (SesameCheck) {
+      alternative += "without sesame ";
+    }
 
-    myFunction(askedTemplate);
+    askedTemplate = `Hi ChatGPT, I'm looking for a recipe for homemade ${alternative} ${text}. Can you help me with that?`;
+    alternative = "";
+
+    const res = await fetch(baseUrl + "chatGpt/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: askedTemplate,
+      }),
+    });
+    const data = await res.json();
+
+    setRecipeGot(true);
+    setRecipeFromChat(data.completion);
   }
 
   const mainInput = (event) => {
-    let mainNameRecipe = event.target.value;
-    setText(mainNameRecipe);
+    setText(event.target.value);
   };
 
-  const allergiesCB = (event) => {
+  const recipeInput = (event) => {
+    setNameRecipe(event.target.value);
+  };
+
+  const glutenAllergiesCB = (event) => {
     setGlutenFreeChecked(event.target.checked);
   };
+
+  const nutsAllergiesCB = (event) => {
+    setNutsChecked(event.target.checked);
+  };
+
+  const milkAllergiesCB = (event) => {
+    setMilkChecked(event.target.checked);
+  };
+
+  const eggsAllergiesCB = (event) => {
+    setEggsChecked(event.target.checked);
+  };
+
+  const sesameAllergiesCB = (event) => {
+    setSesameChecked(event.target.checked);
+  };
+
+  async function saveRecipeCB(event) {
+    event.preventDefault();
+    const res = await fetch(baseUrl + "save_recipe/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: id,
+        name: nameRecipe,
+      }),
+    });
+  }
 
   return (
     <div className="HomePage">
       <form action="">
         <h2>AllerChef</h2>
+        <h4>Search your recipe:</h4>
+        <input type="text" id="mainRecipe" value={text} onChange={mainInput} />
         <button id="submit" disabled={text.length == 0} onClick={getChatGptAns}>
-          give me recipe
+          give me recipe{" "}
         </button>
+        <h4>Choose your allergies</h4>
         <label>
           <input
-            type="text"
-            id="mainRecipe"
-            value={text}
-            onChange={mainInput}
+            type="checkbox"
+            id="message"
+            checked={GlutenCheck}
+            onChange={glutenAllergiesCB}
           />
-          search your recipe:
+          Gluten
         </label>
         <label>
           <input
             type="checkbox"
             id="message"
-            checked={GlutenFreeCheck}
-            onChange={allergiesCB}
+            checked={NutsCheck}
+            onChange={nutsAllergiesCB}
           />
-          gluten free
+          Nuts
         </label>
+        <label>
+          <input
+            type="checkbox"
+            id="message"
+            checked={MilkCheck}
+            onChange={milkAllergiesCB}
+          />
+          Milk
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            id="message"
+            checked={EggsCheck}
+            onChange={eggsAllergiesCB}
+          />
+          Eggs
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            id="message"
+            checked={SesameCheck}
+            onChange={sesameAllergiesCB}
+          />
+          Sesame
+        </label>
+        <h>{recipeFromChat}</h>
+        <Popup trigger={recipeGot}>
+          <button onClick={saveRecipeCB}>save recipe </button>
+          <input
+            type="text"
+            id="mainRecipe"
+            value={nameRecipe}
+            onChange={(event) => recipeInput(event)}
+          />
+        </Popup>
       </form>
-      <div id="chat-log"></div>
-      {/* <script src="create_file.js"></script> */}
     </div>
   );
 }

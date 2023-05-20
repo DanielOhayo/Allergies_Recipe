@@ -47,13 +47,23 @@ app.get('/db_request', async (req, res) => {
   res.json(arrUsers) //send the array as a json file to client.
 })
 
-app.post("/here/", async (req, res) => {
+app.post("/save_recipe", async (req, res) => {
+  try {
+    const { id, name } = req.body;
+    console.log(id + " " + name) //check if according id have this name of recipe
 
-  console("here")
-  return res.status(400).send({ status: 'failed', feedback: feedback })
+    const text = fs.readFileSync('dataNew.txt', 'utf8');
+    await db.collection('recipe').insertOne({ id: id, name: name, text: text });
+    console.log('Text file saved to MongoDB');
+  } catch (err) {
+    console.log(err);
+  }
+
+  return res.json("hi") //send the array as a json file to client.
+
 });
 
-app.post("/", async (req, res) => {
+app.post("/chatGpt", async (req, res) => {
 
   const { message } = req.body;
   console.log("dani " + message)

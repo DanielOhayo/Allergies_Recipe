@@ -12,7 +12,7 @@ export function myFunction(askedTemplate) {
             <div class="message__text">We got your asked, loading ... </div>`;
         chatLog.appendChild(messageElement)
         chatLog.scrollTop = chatLog.scrollHeight;
-        fetch('http://localhost:8080', {
+        fetch('http://localhost:8080/chatGpt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,4 +30,5 @@ export function myFunction(askedTemplate) {
                 chatLog.scrollTop = chatLog.scrollHeight;
             })
     })
+
 }
