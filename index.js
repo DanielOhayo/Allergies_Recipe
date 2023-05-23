@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import { config } from "dotenv"
 import fs from 'fs'
-
+import UserService from './user.service.js';
 import db from './db.js';
 
 config()
@@ -36,31 +36,24 @@ app.post('/get_user/', (req, res) => {
 })
 const collection = db.collection('user');
 
-// Retrieve all documents from the collection
-
 app.get('/db_request', async (req, res) => {
-  // db.collection('user').insertOne({ email: "dani", password: "1" })
-  // Print the list of users to the console
-
   const arrUsers = await collection.find({}).toArray();
   console.log(arrUsers);
   res.json(arrUsers) //send the array as a json file to client.
 })
 
 app.post("/save_recipe", async (req, res) => {
+  const feedback = "recipe has added";
   try {
     const { id, name } = req.body;
-    console.log(id + " " + name) //check if according id have this name of recipe
-
+    console.log(req.body)
     const text = fs.readFileSync('dataNew.txt', 'utf8');
-    await db.collection('recipe').insertOne({ id: id, name: name, text: text });
-    console.log('Text file saved to MongoDB');
-  } catch (err) {
-    console.log(err);
+    const successRes = await UserService.addRecipePerUser(id, [{ name: name, text: text }]);
+  } catch (error) {
+    throw error
   }
-
-  return res.json("hi") //send the array as a json file to client.
-
+  console.log('Text file saved to MongoDB')
+  return res.json({ feedback: feedback }) //send the array as a json file to client.
 });
 
 app.post("/chatGpt", async (req, res) => {

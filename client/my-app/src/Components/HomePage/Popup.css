@@ -1,5 +1,5 @@
 .popup {
-    position: fixed;
+    /* position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -8,6 +8,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    bottom: 20px;
+  right: 20px; */
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
 
 }
 
@@ -20,7 +25,7 @@
     left: 40px;
     padding: 32px;
     width: 400px;
-    height: 200px;
+    height: 250px;
     font-size: 8px;
     max-width: 640px;
     background-color: #fff; 

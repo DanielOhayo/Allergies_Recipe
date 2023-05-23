@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
 import "./HomePage.css";
 import Popup from "./Popup";
+import ExitImage from "../Assets/exit.png";
 
 const baseUrl = "http://localhost:8080/"; //URL of server.
 function HomePage() {
@@ -17,8 +18,12 @@ function HomePage() {
 
   const [text, setText] = useState("");
   const [recipeFromChat, setRecipeFromChat] = useState("");
+
   const [nameRecipe, setNameRecipe] = useState("");
+  const [feedbackSave, setFeedbackSave] = useState("");
   const [recipeGot, setRecipeGot] = useState(false);
+
+  const [saveButton, setSaveButton] = useState(false);
 
   let askedTemplate = "";
   let alternative = "";
@@ -56,10 +61,23 @@ function HomePage() {
     });
     const data = await res.json();
 
-    setRecipeGot(true);
+    setSaveButton(
+      <button id="my-openPopUp-btn" onClick={openPopUpForSave}>
+        Click here to save the recipe
+      </button>
+    );
     setRecipeFromChat(data.completion);
   }
 
+  const openPopUpForSave = (event) => {
+    event.preventDefault();
+    setRecipeGot(true);
+  };
+
+  const exitPopup = (event) => {
+    event.preventDefault();
+    setRecipeGot(false);
+  };
   const mainInput = (event) => {
     setText(event.target.value);
   };
@@ -89,6 +107,7 @@ function HomePage() {
   };
 
   async function saveRecipeCB(event) {
+    setSaveButton("");
     event.preventDefault();
     const res = await fetch(baseUrl + "save_recipe/", {
       method: "POST",
@@ -100,6 +119,8 @@ function HomePage() {
         name: nameRecipe,
       }),
     });
+    const data = await res.json();
+    setFeedbackSave(data.feedback);
   }
 
   return (
@@ -158,14 +179,19 @@ function HomePage() {
           Sesame
         </label>
         <h>{recipeFromChat}</h>
+        <h>{saveButton}</h>
         <Popup trigger={recipeGot}>
-          <button onClick={saveRecipeCB}>save recipe </button>
+          <img id="my-exit-btn" src={ExitImage} onClick={exitPopup}></img>
+          <h id="titleRecipeSave">choose the recipe name:</h>
           <input
             type="text"
-            id="mainRecipe"
+            id="saveRecipe"
             value={nameRecipe}
             onChange={(event) => recipeInput(event)}
           />
+
+          <button onClick={saveRecipeCB}>save recipe </button>
+          <h6>{feedbackSave}</h6>
         </Popup>
       </form>
     </div>
