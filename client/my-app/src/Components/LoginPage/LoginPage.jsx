@@ -19,13 +19,17 @@ function Login() {
 
   function loginSuccess(email, role, course_names) {
     message = "";
+    console.log("dani login " + email);
     navigate("/homePage", {
       state: {
         id_num: email,
       },
     });
   }
-
+  function registrationButton() {
+    message = "";
+    navigate("/registration", {});
+  }
   //back button of browser.
   window.onpopstate = (e) => {
     navigate("/");
@@ -48,7 +52,7 @@ function Login() {
     );
     flag = user_find.length !== 0 ? 1 : 0;
     flag
-      ? loginSuccess(data[0].email, data[0].password)
+      ? loginSuccess(userName, pass)
       : (message = "Wrong user name or password. please try again");
   }
 
@@ -86,6 +90,9 @@ function Login() {
         <br></br>
         <button id="my-button-login" onClick={getInfoAndSendUserToServer}>
           Login
+        </button>
+        <button id="my-button-registration" onClick={registrationButton}>
+          sing up
         </button>
         <p id="my-p-login">{message}</p>
       </form>

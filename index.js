@@ -34,7 +34,7 @@ app.post('/get_user/', (req, res) => {
     return res.status(400).send({ status: 'failed' })
   res.status(200).send({ status: 'recieved' })
 })
-const collection = db.collection('user');
+const collection = db.collection('users');
 
 app.get('/db_request', async (req, res) => {
   const arrUsers = await collection.find({}).toArray();
@@ -42,13 +42,30 @@ app.get('/db_request', async (req, res) => {
   res.json(arrUsers) //send the array as a json file to client.
 })
 
+app.post('/register', async (req, res) => {
+  try {
+    const { email, password, alergias } = req.body;
+    console.log(req.body)
+    const successRes = await UserService.registerUser(email, password, alergias)
+  } catch (error) {
+    throw error
+  }
+})
+
 app.post("/save_recipe", async (req, res) => {
+  console.log("save_recipe ")
   const feedback = "recipe has added";
   try {
     const { id, name } = req.body;
     console.log(req.body)
     const text = fs.readFileSync('dataNew.txt', 'utf8');
-    const successRes = await UserService.addRecipePerUser(id, [{ name: name, text: text }]);
+    const userRecipe = await UserService.checkRecipe(id)
+    if (userRecipe == null) {
+      console.log("dani " + userRecipe)
+      const successRes = await UserService.addRecipePerUser(id, [{ name: name, text: text }]);
+    } else {
+      await UserService.addNewRecipePerUser(id, [{ name: name, text: text }]);
+    }
   } catch (error) {
     throw error
   }

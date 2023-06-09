@@ -3,13 +3,16 @@ import React, { useState } from "react";
 import "./HomePage.css";
 import Popup from "./Popup";
 import ExitImage from "../Assets/exit.png";
+import { useNavigate } from "react-router-dom";
 
 const baseUrl = "http://localhost:8080/"; //URL of server.
 function HomePage() {
   let Location = useLocation();
+  const navigate = useNavigate();
+
   const { state } = Location;
   const [id, setId] = useState(state.id_num);
-
+  console.log("dani " + id);
   const [GlutenCheck, setGlutenFreeChecked] = useState(false);
   const [NutsCheck, setNutsChecked] = useState(false);
   const [MilkCheck, setMilkChecked] = useState(false);
@@ -123,6 +126,10 @@ function HomePage() {
     setFeedbackSave(data.feedback);
   }
 
+  function backToLogin() {
+    navigate("/", {});
+  }
+
   return (
     <div className="HomePage">
       <form action="">
@@ -180,6 +187,9 @@ function HomePage() {
         </label>
         <h>{recipeFromChat}</h>
         <h>{saveButton}</h>
+        <button id="my-button-back" onClick={backToLogin}>
+          Back
+        </button>
         <Popup trigger={recipeGot}>
           <img id="my-exit-btn" src={ExitImage} onClick={exitPopup}></img>
           <h id="titleRecipeSave">choose the recipe name:</h>

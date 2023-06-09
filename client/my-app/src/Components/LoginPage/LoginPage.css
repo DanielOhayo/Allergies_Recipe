@@ -95,3 +95,9 @@
     top: 0px;
     margin-bottom: 5%;
 }
+
+#my-button-registration {
+    position: relative;
+    top: -20px;
+    left: 10px
+}
