@@ -17,12 +17,12 @@ function Login() {
        send param - "users".
        set data in users. */
 
-  function loginSuccess(email, role, course_names) {
+  function loginSuccess(email, alergias) {
     message = "";
-    console.log("dani login " + email);
     navigate("/homePage", {
       state: {
         id_num: email,
+        alergias: alergias,
       },
     });
   }
@@ -43,16 +43,19 @@ function Login() {
     });
     const data = await res.json(); // get the users array from db and store it
     setUsers(data);
-    console.log(data);
-    let flag = 0; // flag for changing html element if login succeed/failed
 
+    let flag = 0; // flag for changing html element if login succeed/failed
     //Check if the username and password that the user entered is match with the data base
-    let user_find = data.filter(
-      (d) => d.email === userName && d.password === pass
-    );
-    flag = user_find.length !== 0 ? 1 : 0;
+    var index = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].email == userName && data[i].password == pass) {
+        flag = 1;
+        index = i;
+      }
+    }
+
     flag
-      ? loginSuccess(userName, pass)
+      ? loginSuccess(userName, data[index].alergias)
       : (message = "Wrong user name or password. please try again");
   }
 

@@ -12,7 +12,7 @@ function HomePage() {
 
   const { state } = Location;
   const [id, setId] = useState(state.id_num);
-  console.log("dani " + id);
+  const [alergias, setAlergias] = useState(state.alergias);
   const [GlutenCheck, setGlutenFreeChecked] = useState(false);
   const [NutsCheck, setNutsChecked] = useState(false);
   const [MilkCheck, setMilkChecked] = useState(false);
@@ -30,6 +30,36 @@ function HomePage() {
 
   let askedTemplate = "";
   let alternative = "";
+  let gluten = false;
+  let nuts = false;
+  let milk = false;
+  let eggs = false;
+  let sesame = false;
+
+  function alergiasDefault() {
+    for (var i = 0; i < alergias.length; i++) {
+      if (alergias[i] == "gluten") {
+        console.log(alergias[i]);
+        setGlutenFreeChecked(true);
+      }
+      if (alergias[i] == "nuts") {
+        console.log(alergias[i]);
+        setNutsChecked(true);
+      }
+      if (alergias[i] == "milk") {
+        console.log(alergias[i]);
+        setMilkChecked(true);
+      }
+      if (alergias[i] == "eggs") {
+        console.log(alergias[i]);
+        setEggsChecked(true);
+      }
+      if (alergias[i] == "sesame") {
+        console.log(alergias[i]);
+        SesameCheck(true);
+      }
+    }
+  }
 
   async function getChatGptAns(e) {
     e.preventDefault();
@@ -139,6 +169,9 @@ function HomePage() {
         <button id="submit" disabled={text.length == 0} onClick={getChatGptAns}>
           give me recipe{" "}
         </button>
+        {/* <button id="default-alergias" onClick={alergiasDefault}>
+          put my default alergias{" "}
+        </button> */}
         <h4>Choose your allergies</h4>
         <label>
           <input
