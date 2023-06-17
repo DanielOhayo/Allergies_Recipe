@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./HomePage.css";
 import Popup from "./Popup";
 import ExitImage from "../Assets/exit.png";
@@ -30,13 +30,8 @@ function HomePage() {
 
   let askedTemplate = "";
   let alternative = "";
-  let gluten = false;
-  let nuts = false;
-  let milk = false;
-  let eggs = false;
-  let sesame = false;
 
-  function alergiasDefault() {
+  useEffect(() => {
     for (var i = 0; i < alergias.length; i++) {
       if (alergias[i] == "gluten") {
         console.log(alergias[i]);
@@ -59,7 +54,7 @@ function HomePage() {
         SesameCheck(true);
       }
     }
-  }
+  }, []);
 
   async function getChatGptAns(e) {
     e.preventDefault();
@@ -148,7 +143,7 @@ function HomePage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: id,
+        email: id,
         name: nameRecipe,
       }),
     });
@@ -158,6 +153,14 @@ function HomePage() {
 
   function backToLogin() {
     navigate("/", {});
+  }
+
+  function savesRecipe() {
+    navigate("/savesRecipe", {
+      state: {
+        id_num: id,
+      },
+    });
   }
 
   return (
@@ -222,6 +225,9 @@ function HomePage() {
         <h>{saveButton}</h>
         <button id="my-button-back" onClick={backToLogin}>
           Back
+        </button>
+        <button id="my-savesRecipe" onClick={savesRecipe}>
+          Go to Saves Recipe
         </button>
         <Popup trigger={recipeGot}>
           <img id="my-exit-btn" src={ExitImage} onClick={exitPopup}></img>

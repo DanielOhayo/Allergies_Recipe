@@ -34,6 +34,7 @@ class UserService {
     // }
 
     static async checkRecipe(email) {
+        console.log("in checkRecipe")
         try {
             return await RecipeModel.findOne({ email });
         } catch (error) {
@@ -56,6 +57,16 @@ class UserService {
             const userRecipe = await RecipeModel.findOne({ email });
             userRecipe.recipes.push(recipes)
             return await userRecipe.save();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getRecipes(email) {
+        try {
+            const userRecipe = await RecipeModel.findOne({ email });
+            console.log(userRecipe.recipes)
+            return userRecipe.recipes
         } catch (error) {
             throw error;
         }

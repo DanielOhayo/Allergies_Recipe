@@ -52,19 +52,27 @@ app.post('/register', async (req, res) => {
   }
 })
 
+app.post('/getSavesRecipes', async (req, res) => {
+  console.log("dani getSavesRecipes")
+  const { email } = req.body;
+  console.log(email)
+  res.json(await UserService.getRecipes(email)) //send the array as a json file to client.
+})
+
 app.post("/save_recipe", async (req, res) => {
   console.log("save_recipe ")
   const feedback = "recipe has added";
   try {
-    const { id, name } = req.body;
+    const { email, name } = req.body;
     console.log(req.body)
     const text = fs.readFileSync('dataNew.txt', 'utf8');
-    const userRecipe = await UserService.checkRecipe(id)
+    const userRecipe = await UserService.checkRecipe(email)
     if (userRecipe == null) {
-      console.log("dani " + userRecipe)
-      const successRes = await UserService.addRecipePerUser(id, [{ name: name, text: text }]);
+      console.log("dani here" + userRecipe)
+      const successRes = await UserService.addRecipePerUser(email, [{ name: name, text: text }]);
     } else {
-      await UserService.addNewRecipePerUser(id, [{ name: name, text: text }]);
+      console.log("dani not null")
+      await UserService.addNewRecipePerUser(email, { name: name, text: text });
     }
   } catch (error) {
     throw error
