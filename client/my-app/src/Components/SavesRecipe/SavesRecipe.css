@@ -9,6 +9,7 @@
  }
 
  #my-exit-btn{
+  cursor: pointer;
     position: relative;
     bottom: 10px;
     left: 200px;
@@ -29,4 +30,31 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
+}
+
+#btn-map {
+  margin: 2px;
+}
+
+#my-button-del {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.button-img {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+
+.button-img:hover {
+  background-color: #ccc;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+#my-feedback{
+  font-size: 15px;
+  color: green;
+
 }

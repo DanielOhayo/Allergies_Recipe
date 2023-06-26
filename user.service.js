@@ -53,6 +53,18 @@ class UserService {
             return []
         }
     }
+
+    static async deleteRecipes(email, recipeName) {
+        console.log("deleteRecipes")
+        try {
+            const userRecipe = await RecipeModel.findOne({ email });
+            const recipeIndex = userRecipe.recipes.findIndex(recipe => recipe.name === recipeName);
+            userRecipe.recipes.splice(recipeIndex, 1);
+            return await userRecipe.save();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default UserService;

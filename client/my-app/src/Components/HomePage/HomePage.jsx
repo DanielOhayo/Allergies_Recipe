@@ -32,26 +32,28 @@ function HomePage() {
   let alternative = "";
 
   useEffect(() => {
-    for (var i = 0; i < alergias.length; i++) {
-      if (alergias[i] == "gluten") {
-        console.log(alergias[i]);
-        setGlutenFreeChecked(true);
-      }
-      if (alergias[i] == "nuts") {
-        console.log(alergias[i]);
-        setNutsChecked(true);
-      }
-      if (alergias[i] == "milk") {
-        console.log(alergias[i]);
-        setMilkChecked(true);
-      }
-      if (alergias[i] == "eggs") {
-        console.log(alergias[i]);
-        setEggsChecked(true);
-      }
-      if (alergias[i] == "sesame") {
-        console.log(alergias[i]);
-        SesameCheck(true);
+    if (alergias) {
+      for (var i = 0; i < alergias.length; i++) {
+        if (alergias[i] == "gluten") {
+          console.log(alergias[i]);
+          setGlutenFreeChecked(true);
+        }
+        if (alergias[i] == "nuts") {
+          console.log(alergias[i]);
+          setNutsChecked(true);
+        }
+        if (alergias[i] == "milk") {
+          console.log(alergias[i]);
+          setMilkChecked(true);
+        }
+        if (alergias[i] == "eggs") {
+          console.log(alergias[i]);
+          setEggsChecked(true);
+        }
+        if (alergias[i] == "sesame") {
+          console.log(alergias[i]);
+          SesameCheck(true);
+        }
       }
     }
   }, []);

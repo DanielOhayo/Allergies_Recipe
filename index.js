@@ -58,6 +58,14 @@ app.post('/getSavesRecipes', async (req, res) => {
   res.json(await UserService.getRecipes(email)) //send the array as a json file to client.
 })
 
+app.post('/deleteRecipes', async (req, res) => {
+  console.log("dani deleteRecipes")
+  const { email, recipeName } = req.body;
+  console.log(email, recipeName)
+  res.json(await UserService.deleteRecipes(email, recipeName)) //send the array as a json file to client.
+
+})
+
 app.post("/save_recipe", async (req, res) => {
   console.log("save_recipe ")
   const feedback = "recipe has added";
