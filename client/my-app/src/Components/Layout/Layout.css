@@ -1,0 +1,38 @@
+ /*CSS for whole resolutions*/
+ .Layout {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 20% 80%;
+}
+
+.Layout>header {
+    grid-column: span 6;
+    border: 1px solid gray;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}
+
+.Layout>aside {
+    border: 1px solid gray;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+}
+
+/*CSS for screen resolution with max widht of 1920px*/
+@media (max-width: 1920px) {
+    .Layout>main {
+        padding: 70px;
+        grid-column: span 5;
+    }
+  }
+
+/*CSS for screen resolution with max widht of 1366px*/
+@media (max-width: 1366px) {
+    .Layout>main {
+        padding: 30px;
+        grid-column: span 5;
+    }
+  }

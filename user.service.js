@@ -11,27 +11,9 @@ class UserService {
             const createUser = new UserModel({ email, password, alergias });
             return await createUser.save();
         } catch (error) {
-            throw error;
+            return false
         }
     }
-
-    // static async checkUser(email) {
-    //     try {
-    //         return await UserModel.findOne({ email });
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
-
-    // static async editUserAudioFile(email, audioFile) {
-    //     try {
-    //         console.log(email + " " + audioFile)
-    //         const user = UserModel.findOne({ email })
-    //         await user.updateOne({ $set: { audioFile } });
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
 
     static async checkRecipe(email) {
         console.log("in checkRecipe")
@@ -68,7 +50,7 @@ class UserService {
             console.log(userRecipe.recipes)
             return userRecipe.recipes
         } catch (error) {
-            throw error;
+            return []
         }
     }
 }

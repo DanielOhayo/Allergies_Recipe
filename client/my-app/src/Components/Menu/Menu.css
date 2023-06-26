@@ -1,0 +1,42 @@
+/*CSS for screen resolution with max widht of 1920px*/
+@media (max-width: 1920px) {
+    .Menu>a {
+       background-color: lavender;
+       max-width: 70%;
+       max-height: 5%;
+       margin-top: 100px;
+       margin-left: 40px;
+       border: 1px solid gray;
+       border-radius: 10px;
+       font-weight: bold;
+    }
+   }
+   
+   /*CSS for screen resolution with max widht of 1366px*/
+   @media (max-width: 1366px) {
+       .Menu>a {
+          background-color: lavender;
+          max-width: 70%;
+          max-height: 5%;
+          margin-top: 65px;
+          margin-left: 40px;
+          border: 1px solid gray;
+          border-radius: 10px;
+          font-weight: bold;
+       }
+      }
+   
+    /*CSS for whole resolutions*/
+   .Menu>button {
+       width: 50%;
+       height: 7%;
+       border: 1px solid black;
+       margin-top: 100px;
+       margin-left: 60px;
+    }
+   
+   .Menu {
+       height: 100%;
+       display: flex;
+       flex-direction: column;
+    }

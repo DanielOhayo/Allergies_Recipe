@@ -18,8 +18,8 @@ function Registration() {
   const [MilkCheck, setMilkChecked] = useState(false);
   const [EggsCheck, setEggsChecked] = useState(false);
   const [SesameCheck, setSesameChecked] = useState(false);
+  const [message, setmessage] = useState("");
 
-  let alergias = [];
   function backToLogin() {
     navigate("/", {});
   }
@@ -53,7 +53,12 @@ function Registration() {
         alergias: alergias,
       }),
     });
-    // const data = await res.json();
+    const data = await res.json();
+    if (data) {
+      setmessage("Suecess registration");
+    } else {
+      setmessage("user name is already exist. please try again");
+    }
   }
 
   const handleChangeForUserName = (event) => {
@@ -155,6 +160,7 @@ function Registration() {
       <button id="my-button-rgister" onClick={registerUser}>
         Submit
       </button>
+      <p id="my-p-login">{message}</p>
     </div>
   );
 }

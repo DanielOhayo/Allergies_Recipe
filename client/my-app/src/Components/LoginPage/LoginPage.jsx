@@ -19,7 +19,7 @@ function Login() {
 
   function loginSuccess(email, alergias) {
     message = "";
-    navigate("/homePage", {
+    navigate("/layout/main", {
       state: {
         id_num: email,
         alergias: alergias,

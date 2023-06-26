@@ -15,10 +15,7 @@ function SavesRecipe() {
   const [buttonData, setButtonData] = useState([]);
   const [recipe, setRecipe] = useState("");
   const [recipeGot, setRecipeGot] = useState(false);
-
-  function backToLogin() {
-    navigate("/", {});
-  }
+  const [message, setmessage] = useState("");
 
   useEffect(() => {
     // Fetch the button data from the server
@@ -38,6 +35,11 @@ function SavesRecipe() {
       }),
     });
     const data = await res.json();
+    if (data.length == 0) {
+      setmessage("Nothing to present");
+    } else {
+      setmessage("");
+    }
     return data;
   };
 
@@ -54,9 +56,9 @@ function SavesRecipe() {
 
   return (
     <div className="SavesRecipe">
-      <button id="my-button-back" onClick={backToLogin}>
+      {/* <button id="my-button-back" onClick={backToLogin}>
         Back to login
-      </button>
+      </button> */}
       {buttonData.map((button, index) => (
         <button key={index} onClick={() => handleButtonClick(button.text)}>
           {button.name}
@@ -66,6 +68,7 @@ function SavesRecipe() {
         <img id="my-exit-btn" src={ExitImage} onClick={exitPopup}></img>
         <h6>{recipe}</h6>
       </Popup>
+      <p id="my-p">{message}</p>
     </div>
   );
 }

@@ -45,10 +45,9 @@ app.get('/db_request', async (req, res) => {
 app.post('/register', async (req, res) => {
   try {
     const { email, password, alergias } = req.body;
-    console.log(req.body)
-    const successRes = await UserService.registerUser(email, password, alergias)
+    res.json(await UserService.registerUser(email, password, alergias))
   } catch (error) {
-    throw error
+    res.json(false)
   }
 })
 

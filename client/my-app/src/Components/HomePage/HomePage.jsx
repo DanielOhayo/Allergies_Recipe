@@ -151,30 +151,14 @@ function HomePage() {
     setFeedbackSave(data.feedback);
   }
 
-  function backToLogin() {
-    navigate("/", {});
-  }
-
-  function savesRecipe() {
-    navigate("/savesRecipe", {
-      state: {
-        id_num: id,
-      },
-    });
-  }
-
   return (
     <div className="HomePage">
       <form action="">
-        <h2>AllerChef</h2>
         <h4>Search your recipe:</h4>
         <input type="text" id="mainRecipe" value={text} onChange={mainInput} />
         <button id="submit" disabled={text.length == 0} onClick={getChatGptAns}>
           give me recipe{" "}
         </button>
-        {/* <button id="default-alergias" onClick={alergiasDefault}>
-          put my default alergias{" "}
-        </button> */}
         <h4>Choose your allergies</h4>
         <label>
           <input
@@ -223,12 +207,6 @@ function HomePage() {
         </label>
         <h>{recipeFromChat}</h>
         <h>{saveButton}</h>
-        <button id="my-button-back" onClick={backToLogin}>
-          Back
-        </button>
-        <button id="my-savesRecipe" onClick={savesRecipe}>
-          Go to Saves Recipe
-        </button>
         <Popup trigger={recipeGot}>
           <img id="my-exit-btn" src={ExitImage} onClick={exitPopup}></img>
           <h id="titleRecipeSave">choose the recipe name:</h>
