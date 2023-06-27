@@ -11,8 +11,10 @@ function HomePage() {
   const navigate = useNavigate();
 
   const { state } = Location;
+
   const [id, setId] = useState(state.id_num);
   const [alergias, setAlergias] = useState(state.alergias);
+
   const [GlutenCheck, setGlutenFreeChecked] = useState(false);
   const [NutsCheck, setNutsChecked] = useState(false);
   const [MilkCheck, setMilkChecked] = useState(false);
@@ -20,6 +22,8 @@ function HomePage() {
   const [SesameCheck, setSesameChecked] = useState(false);
 
   const [text, setText] = useState("");
+  const [textAler, setTextAler] = useState("");
+
   const [recipeFromChat, setRecipeFromChat] = useState("");
 
   const [nameRecipe, setNameRecipe] = useState("");
@@ -27,56 +31,64 @@ function HomePage() {
   const [recipeGot, setRecipeGot] = useState(false);
 
   const [saveButton, setSaveButton] = useState(false);
+  const [pressedButton, setPressedButton] = useState([]);
+  const [selectedNames, setSelectedNames] = useState([]);
 
   let askedTemplate = "";
   let alternative = "";
 
   useEffect(() => {
-    if (alergias) {
-      for (var i = 0; i < alergias.length; i++) {
-        if (alergias[i] == "gluten") {
-          console.log(alergias[i]);
-          setGlutenFreeChecked(true);
-        }
-        if (alergias[i] == "nuts") {
-          console.log(alergias[i]);
-          setNutsChecked(true);
-        }
-        if (alergias[i] == "milk") {
-          console.log(alergias[i]);
-          setMilkChecked(true);
-        }
-        if (alergias[i] == "eggs") {
-          console.log(alergias[i]);
-          setEggsChecked(true);
-        }
-        if (alergias[i] == "sesame") {
-          console.log(alergias[i]);
-          SesameCheck(true);
-        }
-      }
+    async function getAller() {
+      const res = await fetch(baseUrl + "getAller/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: id,
+        }),
+      });
+      const data = await res.json();
+      setSelectedNames(data.alergies);
     }
+    getAller();
   }, []);
 
+  let pressedBtn = [];
+  const alerArray = ["gluten", "nuts", "milk", "eggs", "sesame"];
+  const handleCheckboxChange = (name) => {
+    let updatedSelectedNames;
+
+    if (selectedNames.includes(name)) {
+      updatedSelectedNames = selectedNames.filter(
+        (selectedName) => selectedName !== name
+      );
+    } else {
+      updatedSelectedNames = [...selectedNames, name];
+    }
+
+    setSelectedNames(updatedSelectedNames);
+
+    for (let i = 0; i < alerArray.length; i++) {
+      if (updatedSelectedNames.includes(alerArray[i])) {
+        // Perform specific actions when 'John' checkbox is clicked
+        console.log(`${alerArray[i]} checkbox clicked`);
+        pressedBtn.push(alerArray[i]);
+        // You can add any other actions or logic here
+        console.log(pressedBtn);
+        setPressedButton(pressedBtn);
+      }
+    }
+  };
   async function getChatGptAns(e) {
     e.preventDefault();
     setRecipeFromChat("We got your asked, loading ...");
-    if (GlutenCheck) {
-      alternative += "without gluten ";
+    for (let i = 0; i < pressedButton.length; i++) {
+      alternative += "without " + pressedButton[i] + " ";
     }
-    if (NutsCheck) {
-      alternative += "without nuts ";
+    if (textAler != "") {
+      alternative += "without " + textAler + " ";
     }
-    if (MilkCheck) {
-      alternative += "without milk ";
-    }
-    if (EggsCheck) {
-      alternative += "without eggs ";
-    }
-    if (SesameCheck) {
-      alternative += "without sesame ";
-    }
-
     askedTemplate = `Hi ChatGPT, I'm looking for a recipe for homemade ${alternative} ${text}. Can you help me with that?`;
     alternative = "";
 
@@ -112,28 +124,12 @@ function HomePage() {
     setText(event.target.value);
   };
 
+  const alerInput = (event) => {
+    setTextAler(event.target.value);
+  };
+
   const recipeInput = (event) => {
     setNameRecipe(event.target.value);
-  };
-
-  const glutenAllergiesCB = (event) => {
-    setGlutenFreeChecked(event.target.checked);
-  };
-
-  const nutsAllergiesCB = (event) => {
-    setNutsChecked(event.target.checked);
-  };
-
-  const milkAllergiesCB = (event) => {
-    setMilkChecked(event.target.checked);
-  };
-
-  const eggsAllergiesCB = (event) => {
-    setEggsChecked(event.target.checked);
-  };
-
-  const sesameAllergiesCB = (event) => {
-    setSesameChecked(event.target.checked);
   };
 
   async function saveRecipeCB(event) {
@@ -162,50 +158,28 @@ function HomePage() {
           give me recipe{" "}
         </button>
         <h4>Choose your allergies</h4>
+        {alerArray.map((name, index) => (
+          <div key={index}>
+            <label>
+              <input
+                type="checkbox"
+                checked={selectedNames.includes(name)}
+                onChange={() => handleCheckboxChange(name)}
+              />
+              {name}
+            </label>
+          </div>
+        ))}
         <label>
-          <input
-            type="checkbox"
-            id="message"
-            checked={GlutenCheck}
-            onChange={glutenAllergiesCB}
-          />
-          Gluten
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="message"
-            checked={NutsCheck}
-            onChange={nutsAllergiesCB}
-          />
-          Nuts
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="message"
-            checked={MilkCheck}
-            onChange={milkAllergiesCB}
-          />
-          Milk
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="message"
-            checked={EggsCheck}
-            onChange={eggsAllergiesCB}
-          />
-          Eggs
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            id="message"
-            checked={SesameCheck}
-            onChange={sesameAllergiesCB}
-          />
-          Sesame
+          <h4>
+            Other:
+            <input
+              type="text"
+              id="aller"
+              value={textAler}
+              onChange={alerInput}
+            />
+          </h4>
         </label>
         <h>{recipeFromChat}</h>
         <h>{saveButton}</h>
@@ -218,7 +192,6 @@ function HomePage() {
             value={nameRecipe}
             onChange={(event) => recipeInput(event)}
           />
-
           <button onClick={saveRecipeCB}>save recipe </button>
           <h6>{feedbackSave}</h6>
         </Popup>

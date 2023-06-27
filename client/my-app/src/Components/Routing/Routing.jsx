@@ -6,7 +6,7 @@ import Main from "../Main/Main";
 import Registration from "../Registration/Registration";
 import SavesRecipe from "../SavesRecipe/SavesRecipe";
 import HomePage from "../HomePage/HomePage";
-
+import Setting from "../Setting/Setting";
 import Page404 from "../Page404/Page404";
 
 //component that saves all path of the project and define the routing each path.
@@ -20,6 +20,7 @@ function Routing() {
           <Route path="main" element={<Main />} />
           <Route path="savesRecipe" element={<SavesRecipe />} />
           <Route path="search" element={<HomePage />} />
+          <Route path="setting" element={<Setting />} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>

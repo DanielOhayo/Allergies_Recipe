@@ -15,6 +15,17 @@ class UserService {
         }
     }
 
+    static async getAller(email, password, alergias) {
+        console.log(email)
+        try {
+            const user = await UserModel.findOne({ email });
+            console.log(user.alergias)
+            return user.alergias;
+        } catch (error) {
+            return false
+        }
+    }
+
     static async checkRecipe(email) {
         console.log("in checkRecipe")
         try {
@@ -61,6 +72,27 @@ class UserService {
             const recipeIndex = userRecipe.recipes.findIndex(recipe => recipe.name === recipeName);
             userRecipe.recipes.splice(recipeIndex, 1);
             return await userRecipe.save();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    static async addAllergies(email, alergias) {
+        try {
+            const user = await UserModel.findOne({ email });
+            const aller = user.alergias
+            for (var i = 0; i < alergias.length; i++) {
+                for (var j = 0; j < aller.length; j++) {
+                    if (aller[j] == alergias[i]) {
+                        alergias.splice(i, 1);
+                    }
+                }
+            }
+            for (var i = 0; i < alergias.length; i++) {
+                user.alergias.push(alergias[i])
+            }
+            return await user.save();
         } catch (error) {
             throw error;
         }

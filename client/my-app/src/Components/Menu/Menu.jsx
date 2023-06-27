@@ -22,6 +22,15 @@ function Menu() {
     localStorage.clear();
     navigate("/");
   };
+  const setting = (event) => {
+    localStorage.clear();
+    navigate("setting", {
+      state: {
+        id_num: id,
+        alergias: alergias,
+      },
+    });
+  };
 
   return (
     <div className="Menu">
@@ -37,8 +46,8 @@ function Menu() {
         <img id="my-img-btn" src={Search}></img>
         Search
       </Link>
+      <img id="my-set-btn" src={Setting} onClick={setting}></img>
       <img id="my-logout-btn" src={Logout} onClick={logout}></img>
-      <img id="my-logout-btn" src={Setting}></img>
     </div>
   );
 }

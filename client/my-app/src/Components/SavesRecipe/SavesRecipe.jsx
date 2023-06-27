@@ -59,6 +59,7 @@ function SavesRecipe() {
     setRecipeGot(true);
     setRecipe(text);
     setRecipeName(name);
+    setfeedback("");
   };
 
   const deleteRecipe = async (event) => {
@@ -74,13 +75,20 @@ function SavesRecipe() {
       }),
     });
     const data = await res.json();
+    const buttonIndexToRemove = buttonData.findIndex(
+      (button) => button.name === recipeName
+    );
+    if (buttonIndexToRemove !== -1) {
+      buttonData.splice(buttonIndexToRemove, 1);
+    }
+    if (buttonData.length == 0) {
+      setmessage("Nothing to present");
+    }
     setfeedback(`${recipeName} deleted`);
   };
 
   const exitPopup = (event) => {
     event.preventDefault();
-    getSavesRecipes();
-
     setRecipeGot(false);
   };
 

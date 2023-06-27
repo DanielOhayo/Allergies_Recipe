@@ -51,11 +51,28 @@ app.post('/register', async (req, res) => {
   }
 })
 
+app.post('/addAllergies', async (req, res) => {
+  try {
+    const { email, alergias } = req.body;
+    res.json(await UserService.addAllergies(email, alergias))
+  } catch (error) {
+    res.json(false)
+  }
+})
+
 app.post('/getSavesRecipes', async (req, res) => {
-  console.log("dani getSavesRecipes")
   const { email } = req.body;
   console.log(email)
   res.json(await UserService.getRecipes(email)) //send the array as a json file to client.
+})
+
+app.post('/getAller', async (req, res) => {
+  console.log("dani getAller")
+  const { email } = req.body;
+  console.log(email)
+  const aler = await UserService.getAller(email)
+  console.log(aler)
+  res.json({ alergies: aler }) //send the array as a json file to client.
 })
 
 app.post('/deleteRecipes', async (req, res) => {

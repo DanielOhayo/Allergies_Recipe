@@ -35,3 +35,10 @@
     position: relative;
     right: -15px
 }
+
+#aller{
+    width: 100px;
+    height: 30px;
+    margin:0.5%;
+    font-style: italic;
+}
