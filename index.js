@@ -53,7 +53,11 @@ app.post('/register', async (req, res) => {
 
 app.post('/addAllergies', async (req, res) => {
   try {
-    const { email, alergias } = req.body;
+    const { email, alergias, textAler } = req.body;
+    console.log(textAler)
+    if (textAler != "") {
+      const newAller = await UserService.addAllerObj(textAler)
+    }
     res.json(await UserService.addAllergies(email, alergias))
   } catch (error) {
     res.json(false)
@@ -76,11 +80,14 @@ app.post('/getAller', async (req, res) => {
 })
 
 app.post('/deleteRecipes', async (req, res) => {
-  console.log("dani deleteRecipes")
   const { email, recipeName } = req.body;
-  console.log(email, recipeName)
   res.json(await UserService.deleteRecipes(email, recipeName)) //send the array as a json file to client.
+})
 
+app.post('/getAllergiesObj', async (req, res) => {
+  const aller = await UserService.getAllergiesObj()
+  console.log(aller)
+  res.json(aller)
 })
 
 app.post("/save_recipe", async (req, res) => {

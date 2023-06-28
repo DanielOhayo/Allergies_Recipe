@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import RecipeModel from './recipe.model.js';
 import UserModel from './user.model.js';
-
+import AllerModel from './allergies.model.js';
 
 class UserService {
 
@@ -77,7 +77,26 @@ class UserService {
         }
     }
 
+    static async getAllergiesObj() {
+        console.log("getAllergiesObj")
+        try {
+            const aller = await AllerModel.findOne({ id: "a" });
+            return aller.alergias
+        } catch (error) {
+            return false
+        }
+    }
 
+    static async addAllerObj(aller) {
+        console.log("addAllerObj")
+        try {
+            const allergies = await AllerModel.findOne({ id: "a" });
+            allergies.alergias.push(aller)
+            return await allergies.save()
+        } catch (error) {
+            return false
+        }
+    }
     static async addAllergies(email, alergias) {
         try {
             const user = await UserModel.findOne({ email });

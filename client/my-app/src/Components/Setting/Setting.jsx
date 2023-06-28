@@ -49,6 +49,7 @@ function Setting() {
       body: JSON.stringify({
         email: id,
         alergias: alergias,
+        textAler: textAler,
       }),
     });
     const data = await res.json();

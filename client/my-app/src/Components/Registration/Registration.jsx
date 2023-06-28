@@ -160,7 +160,7 @@ function Registration() {
       <button id="my-button-rgister" onClick={registerUser}>
         Submit
       </button>
-      <p id="my-p-login">{message}</p>
+      <p id="my-p-register">{message}</p>
     </div>
   );
 }

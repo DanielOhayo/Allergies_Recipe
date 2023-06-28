@@ -33,6 +33,7 @@ function HomePage() {
   const [saveButton, setSaveButton] = useState(false);
   const [pressedButton, setPressedButton] = useState([]);
   const [selectedNames, setSelectedNames] = useState([]);
+  const [allergiesObj, setAllergiesObjs] = useState([]);
 
   let askedTemplate = "";
   let alternative = "";
@@ -51,11 +52,23 @@ function HomePage() {
       const data = await res.json();
       setSelectedNames(data.alergies);
     }
+    async function getAllergiesObj() {
+      const res = await fetch(baseUrl + "getAllergiesObj/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json();
+      setAllergiesObjs(data);
+    }
     getAller();
+    getAllergiesObj();
   }, []);
 
   let pressedBtn = [];
-  const alerArray = ["gluten", "nuts", "milk", "eggs", "sesame"];
+  const alerArray = allergiesObj;
   const handleCheckboxChange = (name) => {
     let updatedSelectedNames;
 
