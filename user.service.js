@@ -91,6 +91,15 @@ class UserService {
         console.log("addAllerObj")
         try {
             const allergies = await AllerModel.findOne({ id: "a" });
+            for (var i = 0; i < allergies.alergias.length; i++) {
+                console.log(aller)
+                console.log(allergies.alergias[i])
+
+                if (allergies.alergias[i].includes(aller)) {
+                    console.log("the same")
+                    return true;
+                }
+            }
             allergies.alergias.push(aller)
             return await allergies.save()
         } catch (error) {
